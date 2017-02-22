@@ -1,0 +1,102 @@
+#leftlist{
+	margin-top:22px;
+}
+
+a.navbar-brand{
+	font-size:22px;
+	font-family:楷体;
+	height:50px;
+}
+
+a:hover{
+	text-decoration: none;
+}
+
+a:link{
+	text-decoration: none;
+}
+
+a:visited{
+	text-decoration: none;
+}
+
+a:active{
+	text-decoration: none;
+}
+
+thead a:hover{
+	color:#333; 
+	text-decoration: none;
+}		
+
+thead a:link{
+	color:#333; 
+	text-decoration: none;
+}
+
+thead a:visited{
+	color:#333; 
+	text-decoration: none;
+}
+
+thead a:active{
+	color:#333; 
+	text-decoration: none;
+}
+
+.btn-group{
+	float:right;
+	margin-right:50px;
+}
+
+#outExcel{
+	float:right;
+	margin-right:50px;
+}
+
+#DetaInfo,#UseAim{
+	resize:none; 
+}
+	
+#user{
+	color: #9d9d9d;	
+	background-color: #222222;
+}
+
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+	color: #9d9d9d; 
+	background-color: transparent;
+}
+
+.dropdown-menu{
+	background-color: white;	
+}
+
+th.pointer{
+	cursor: pointer;	
+}
+
+#content2,#content3,#content4{
+	display:none;
+}
+
+.badge:empty {
+	display: none;
+}
+
+.badge {
+	background-color: #D9534F;
+}
+
+.disabled {
+	pointer-events:none;
+}
+
+#user {
+	padding-left: 4px;
+}
+
+#userType {
+	padding-right: 4px;
+	font-family:微软雅黑;
+}

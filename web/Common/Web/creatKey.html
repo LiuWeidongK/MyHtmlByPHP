@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Key</title>
+    <link rel="icon" href="../Resource/ico.jpg">
+    <link href="../../Index/css/bootstrap.min.css" rel="stylesheet">    <!-- Bootstrap Code -->
+    <script type="text/javascript" src="../../Index/js/jquery-3.0.0.js"></script>	    <!-- Jquery -->
+    <script type="text/javascript" src="../../Index/js/bootstrap.min.js"></script>     <!-- Bootstrap Code-->
+    <script type="text/javascript" src="../Js/createKey.js"></script>
+
+    <style type="text/css">
+        .div {
+            margin-left: 60px;
+            float: left;
+        }
+
+        ul {
+            width: 330px;
+        }
+    </style>
+</head>
+<body>
+    <div class="div">
+        <h1>生成邀请码</h1><br/>
+        <form class="form-inline" id="creatForm">
+            <div class="form-group">
+                <label for="creatNum">输入数量</label>
+                <input type="text" class="form-control" id="creatNum" name="creatNum"/>
+            </div>
+            <button type="button" class="btn btn-default" id="submitToCreate">确定</button>
+        </form><br/>
+        <ul class="list-group" id="ulCreate"></ul>
+    </div>
+    <div class="div">
+        <h1>查看可用邀请码</h1><br/>
+        <button type="button" class="btn btn-default" id="fresh">Refresh</button><br/><br/>
+        <ul class="list-group" id="ulSelect"></ul>
+    </div>
+    <div class="div">
+        <h1>检测邀请码</h1><br/>
+        <form class="form-inline" id="checkForm">
+            <div id="change" class="form-group">
+                <label for="keyNum">输入邀请码</label>
+                <input type="text" class="form-control" id="keyNum" name="keyNum"/>
+                <div id="ico"></div>
+            </div>
+            <button type="button" class="btn btn-default" id="submitToCheck">确定</button>
+        </form>
+    </div>
+</body>
+</html>

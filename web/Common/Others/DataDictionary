@@ -1,0 +1,30 @@
+login:
+    字段名         类型              长度       主键      非空       备注
+    username       varchar(9)        6-8        是        是         用户名(学号)
+    password       varchar(19)       6-18       否        是         密码
+    complete       tinyint(1)        1          否        是         判断信息是否完善的标志
+
+facinfo:
+    字段名         类型              长度       主键      非空       备注
+    labno          varchar(8)        4-6        否        是         实验室编号
+    facno          varchar(8)        4-6        是        是         设备编号
+    facname        varchar(17)       max(16)    否        是         设备名称
+    facmodel       varchar(21)       max(20)    否        是         设备型号
+    stock          int                          否        是         库存数量
+    used           int                          否        是         已使用数量
+    information    text                         否        是         详细信息
+
+borrow:
+    字段名         类型              长度       主键      非空       备注
+    username       varchar(9)        6-8        否        是         用户名(学号)  login(username)
+    sdate          date                         否        是         借用日期
+    facno          varchar(8)        4-6        否        是         借用设备编号  facinfo(facno)
+    uselong        int                          否        是         借用时长
+    aim            text                         否        是         借用目的
+
+personal:
+    字段名         类型              长度       主键      非空       备注
+    username       varchar(9)        6-8        是        是         用户名(学号)  login(username)
+    college        varchar(16)       max(15)    否        否         学院
+    name           varchar(11)       2-10       否        否         姓名
+    telephone      varchar(12)       11         否        否         电话

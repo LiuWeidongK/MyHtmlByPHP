@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JumpPage</title>
+    <link rel="icon" href="../Resource/ico.jpg">
+    <script type="text/javascript">
+        function delayURL() {
+            var delay = document.getElementById("time").innerHTML;
+            var t = setTimeout("delayURL()", 1000);
+            if (delay > 0) {
+                delay--;
+                document.getElementById("time").innerHTML = delay;
+            } else {
+                clearTimeout(t);
+                window.location.href = "../../Login/login.php";
+            }
+        }
+    </script>
+</head>
+<body onload="delayURL()">
+<p style="text-indent: 2em; margin-top: 30px;">
+    您尚未登录或登录信息超时,系统将在 <span id="time">5</span> 秒钟后自动跳转,如果未能跳转,<a href="../../Login/login.php" title="onCheck">请点击</a>.</p>
+</body>
+</html>
