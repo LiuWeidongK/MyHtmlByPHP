@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="icon" href="resource/ico.ico">
-    <title>实验室器材管理系统</title>
+    <title>实验室器材管理系统-PHP</title>
 
     <link rel="stylesheet" type="text/css" href="css/loginCss.css" />
     <link href="../Common/Css/messenger.css" rel="stylesheet">   <!-- Alert Message -->

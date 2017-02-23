@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="resource/ico.ico">
-    <title>实验室器材管理系统</title>
+    <title>实验室器材管理系统-PHP</title>
 
     <!-- CssCodeLink Start -->
     <link href="css/bootstrap.min.css" rel="stylesheet">    <!-- Bootstrap Code -->
