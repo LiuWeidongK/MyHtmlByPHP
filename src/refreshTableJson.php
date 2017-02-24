@@ -1,8 +1,10 @@
 <?php
+    include ('connMySQL.php');
     header("Content-type: text/html; charset=utf-8");
-    //$conn = new mysqli("localhost" , "root" , "0000" , "myhtmldb");
-    $conn = new mysqli("bdm264098108.my3w.com" , "bdm264098108" , "liu123456" , "bdm264098108_db");
+    $class = new connMySQL();
+    $conn = $class->getConn();
     mysqli_query($conn,"SET NAMES 'UTF8'");
+
     session_start();
     $username = $_SESSION['username'];
     $No = $_POST['No'];
@@ -11,7 +13,7 @@
         case '1':
         case '2':
             $array = array();
-            $sql = "SELECT * FROM FACINFO";
+            $sql = "SELECT * FROM facinfo";
             $result = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_array($result)) {
                 $arr = [
@@ -29,7 +31,7 @@
             break;
         case '3':
             $array = array();
-            $sql = "SELECT * FROM BORROW,PERSONAL,FACINFO WHERE BORROW.USERNAME = PERSONAL.USERNAME AND FACINFO.FACNO = BORROW.FACNO";
+            $sql = "SELECT * FROM borrow,personal,facinfo WHERE borrow.username = personal.username AND facinfo.FacNo = borrow.FacNo";
             $result = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_array($result)) {
                 $arr = [
@@ -47,7 +49,7 @@
             echo json_encode($array,JSON_UNESCAPED_UNICODE);
             break;
         case '4':
-            $sql = "SELECT * FROM PERSONAL WHERE USERNAME = '$username'";
+            $sql = "SELECT * FROM personal WHERE username = '$username'";
             $result = mysqli_query($conn,$sql);
             if($row = mysqli_fetch_array($result)) {
                 $arr = array(

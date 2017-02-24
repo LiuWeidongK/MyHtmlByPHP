@@ -1,8 +1,10 @@
 <?php
+    include ('connMySQL.php');
     header("Content-type: text/html; charset=utf-8");
-    //$conn = new mysqli("localhost" , "root" , "0000" , "myhtmldb");
-    $conn = new mysqli("bdm264098108.my3w.com" , "bdm264098108" , "liu123456" , "bdm264098108_db");
+    $class = new connMySQL();
+    $conn = $class->getConn();
     mysqli_query($conn,"SET NAMES 'UTF8'");
+
     session_start();
     $username = $_SESSION['username'];
     $date = date('20y-m-d',time());
@@ -16,12 +18,12 @@
 
     function insertValue() {
         global $conn,$username,$date,$borrowFacId,$useLong,$useAim;
-        $sql = "INSERT INTO BORROW (USERNAME,SDATE,FACNO,USELONG,AIM) VALUES ('$username','$date','$borrowFacId','$useLong','$useAim')";
+        $sql = "INSERT INTO borrow VALUES ('$username','$date','$borrowFacId','$useLong','$useAim')";
         return mysqli_query($conn,$sql);
     }
 
     function updateUsed() {
         global $conn,$borrowFacId;
-        $sql = "UPDATE FACINFO SET USED = USED + 1 WHERE FACNO = '$borrowFacId'";
+        $sql = "UPDATE facinfo SET Used = Used + 1 WHERE FacNo = '$borrowFacId'";
         return mysqli_query($conn,$sql);
     }

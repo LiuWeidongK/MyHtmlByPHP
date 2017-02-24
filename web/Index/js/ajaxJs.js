@@ -55,6 +55,7 @@ $(document).ready(function () {
 //刷新Div
 $(document).ready(function () {
     refresh_1();
+    refresh_4();
     $("#refreshBtn1").click(function () {
         refresh_1();
     });
@@ -301,7 +302,7 @@ $(document).ready(function () {
                     data: {facList: checkedList},
                     success: function (data) {
                         if (data == "success") {
-                            Messenger().post({message: '批量删除成功', type: 'success', showCloseButton: true});
+                            Messenger().post({message: "删除成功 已删除" + checkedNum + "条数据", type: 'success', showCloseButton: true});
                             $("#deleteAllModal").modal('hide');
                             refresh_2();
                         }

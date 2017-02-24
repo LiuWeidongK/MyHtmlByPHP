@@ -1,9 +1,10 @@
 <?php
-
+include ('connMySQL.php');
 class createKeyClass
 {
     private function getConn() {
-        $conn = new mysqli("localhost" , "root" , "0000" , "myhtmldb");
+        $class = new connMySQL();
+        $conn = $class->getConn();
         return $conn;
     }
 
@@ -12,9 +13,8 @@ class createKeyClass
     }
 
     private function insertValue($key) {
-        $conn = $this->getConn();
-        $sql = "INSERT INTO KEYNUMBER VALUES ('$key',FALSE)";
-        return mysqli_query($conn,$sql);
+        $sql = "INSERT INTO keynumber VALUES ('$key',FALSE)";
+        return mysqli_query($this->getConn(),$sql);
     }
 
     public function getKey($n) {
@@ -29,8 +29,9 @@ class createKeyClass
 
     public function getSQLKey() {
         $array = array();
-        $sql = "SELECT * FROM KEYNUMBER WHERE USED = FALSE ";
-        $result = mysqli_query($this->getConn(),$sql);
+        $conn = $this->getConn();
+        $sql = "SELECT * FROM keynumber WHERE used = FALSE ";
+        $result = mysqli_query($conn,$sql);
         while($row = mysqli_fetch_array($result)) {
             $array[] = $row['keyvalue'];
         }
@@ -38,7 +39,7 @@ class createKeyClass
     }
 
     public function checkKey($key) {
-        $sql = "SELECT * FROM KEYNUMBER WHERE KEYVALUE = '$key' AND USED = FALSE ";
+        $sql = "SELECT * FROM keynumber WHERE keyvalue = '$key' AND used = FALSE ";
         $result = mysqli_query($this->getConn(),$sql);
         return mysqli_num_rows($result);
     }
