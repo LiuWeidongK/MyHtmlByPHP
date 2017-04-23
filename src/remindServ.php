@@ -18,6 +18,20 @@ switch ($type){
         echo Remind::send($uNo,$fNo);
         break;
     case '1':           //批量提醒
+        $sum = 0;
+        $success = 0;
+        $sql = "SELECT * FROM borrow WHERE state=101 OR state=102";
+        $result = mysqli_query(connMySQL::getConn(),$sql);
+        while($row = mysqli_fetch_array($result)) {
+            $r = Remind::send($row['username'],$row['FacNo']);
+            if($r=='301')
+                $success++;
+            $sum++;
+        }
+        echo json_encode(array(
+            '_success'=> $success,
+            '_fail'=> $sum - $success
+        ));
         break;
 }
 

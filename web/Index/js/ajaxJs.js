@@ -573,7 +573,6 @@ function renew() {
 //提醒
 function remind() {
     $('[name=remind]').click(function () {
-
         var facid = $(this).parents("tr").find("td").eq(5).text().trim();
         var userid = $(this).parents("tr").find("td").eq(0).text().trim();
         // alert(array[0]['facid']);
@@ -607,6 +606,17 @@ function remind() {
     });
 }
 
-function remindAll() {
-    
-}
+$(document).ready(function remindAll() {
+    $('#remindAll').click(function () {
+        $.ajax({
+           type:"POST",
+            data:{type:1},
+            url: "../../src/remindServ.php",
+            success: function(data) {
+                var jsonObj = eval( "(" + data + ")" );
+                var msg = "已成功提醒 " + jsonObj._success + "个,失败" + jsonObj._fail + "个";
+                Messenger().post({message: msg, type: 'info', showCloseButton: true});
+            }
+        });
+    });
+});
