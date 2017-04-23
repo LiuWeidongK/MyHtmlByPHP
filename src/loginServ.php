@@ -16,7 +16,7 @@
 
     function login($username,$password) {
         global $conn;
-        $result = mysqli_query($conn,"select * from login where password = '$username'");
+        $result = mysqli_query($conn,"select * from login where username = '$username'");
         if($row = mysqli_fetch_array($result)) {
             if($row['password'] == $password)
                 return true;

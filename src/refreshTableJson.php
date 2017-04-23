@@ -31,7 +31,11 @@
             break;
         case '3':
             $array = array();
-            $sql = "SELECT * FROM borrow,personal,facinfo WHERE borrow.username = personal.username AND facinfo.FacNo = borrow.FacNo";
+            $type = $_POST['type'];
+            if($type=='1')
+                $sql = "SELECT * FROM borrow,personal,facinfo WHERE borrow.username = personal.username AND facinfo.FacNo = borrow.FacNo";
+            else if($type==0)
+                $sql = "SELECT * FROM borrow,personal,facinfo WHERE borrow.username = personal.username AND facinfo.FacNo = borrow.FacNo AND personal.username = '$username'";
             $result = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_array($result)) {
                 $arr = [
@@ -39,9 +43,12 @@
                     'names' => $row['name'],
                     'college' => $row['college'],
                     'sdate' => $row['sdate'],
+                    'edate' => $row['edate'],
+                    'facno' => $row['FacNo'],
                     'facname' => $row['FacName'],
+                    'state' => $row['state'],
                     'tele' => $row['telephone'],
-                    'uselong' => $row['uselong'],
+//                    'uselong' => $row['uselong'],
                     'aim' => $row['aim']
                 ];
                 $array[] = $arr;

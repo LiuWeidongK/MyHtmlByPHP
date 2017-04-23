@@ -141,10 +141,11 @@ $(document).ready(function(){
 
     $("#BorrowInfo").tablesorter({
         headers: {
-            4: {sorter: false},
             5: {sorter: false},
             6: {sorter: false},
-            7: {sorter: false}
+            7: {sorter: false},
+            9: {sorter: false}
+
         }
     });
 });

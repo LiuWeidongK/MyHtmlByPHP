@@ -164,8 +164,11 @@
                     <input type="text" class="form-control" id="searchId_3" placeholder="学号">
                 </div>
                 <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="remindAll">
+                        <span class="glyphicon glyphicon-send"></span> 一键提醒
+                    </button>
                     <button type="button" class="btn btn-default" id="refreshBtn3">
-                        <span class="glyphicon glyphicon-refresh"></span> Refresh
+                        <span class="glyphicon glyphicon-refresh"></span>
                     </button>
                 </div>
                 <table class="table table-hover" id="BorrowInfo">
@@ -175,10 +178,14 @@
                         <th class="pointer">姓名 <span class="glyphicon glyphicon-sort-by-alphabet"></span></th>
                         <th class="pointer">所属学院 <span class="glyphicon glyphicon-sort-by-alphabet"></span></th>
                         <th class="pointer">借用日期 <span class="glyphicon glyphicon-sort-by-order"></span></th>
+                        <th class="pointer">到期时间 <span class="glyphicon glyphicon-sort-by-order"></span></th>
+                        <th style="display: none"></th>
                         <th>所借设备</th>
                         <th>联系电话</th>
-                        <th>借用时长</th>
-                        <th>借用目的</th>
+                        <th class="pointer">状态 <span class="glyphicon glyphicon-sort"></span></th>
+<!--                        <th>借用时长</th>-->
+<!--                        <th>借用目的</th>-->
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody id="thirdTbody"></tbody>

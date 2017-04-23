@@ -1,2 +1,22 @@
 Copy By JavaWeb Project
                 Finished at 2017/2/23 1:52
+
+
+<?php
+$data = array (‘foo' => ‘bar');
+$data = http_build_query($data);
+
+$opts = array (
+‘http' => array (
+‘method' => ‘POST',
+‘header'=> “Content-type: application/x-www-form-urlencodedrn” .
+“Content-Length: ” . strlen($data) . “rn”,
+‘content' => $data
+)
+);
+
+$context = stream_context_create($opts);
+$html = file_get_contents(‘http://localhost/e/admin/test.html', false, $context);
+
+echo $html;
+?>

@@ -90,6 +90,7 @@ th.pointer{
 
 .disabled {
 	pointer-events:none;
+	color: #999;
 }
 
 #user {
@@ -100,3 +101,20 @@ th.pointer{
 	padding-right: 4px;
 	font-family:微软雅黑;
 }
+
+.normalState {
+	color: rgb(50, 187, 50);
+}
+
+.willExpire {
+	color: rgb(253, 138, 81);
+}
+
+.haveExpire {
+	color: rgb(245, 24, 24);
+}
+
+.haveReturn {
+	color: rgba(154, 154, 154, 0.88);
+}
+

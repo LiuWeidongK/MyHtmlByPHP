@@ -2,6 +2,9 @@
  * Created by Administrator on 2017/2/3.
  * index.jsp页面所有和服务器交互的js代码
  */
+var facIdd;     //全局变量 设备编号
+var isManagers = 0;  //标记管理员:1和普通用户:0
+
 //初始化弹窗样式以及位置
 Messenger.options = {
     extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
@@ -36,7 +39,7 @@ $(document).ready(function () {
 });
 
 //管理员与普通用户
-$(document).ready(function () {
+function isManager() {
     $.ajax({
         type: "POST",
         url: "../../src/userTypeServ.php",
@@ -44,13 +47,17 @@ $(document).ready(function () {
             if(data=="manager") {                  //管理员
                 $("#LiManage").addClass("hide");
                 $("#userType").text("管理员");
+                $("[name=borrowBtn]").addClass("disabled");
+                isManagers = 1;
             } else if(data=="ordinary") {        //普通用户
                 $("#LiFacManage").addClass("disabled");
                 $("#userType").text("普通用户");
+                $("#remindAll").addClass("hide");
+                isManagers = 0;
             }
         }
     });
-});
+}
 
 //刷新Div
 $(document).ready(function () {
@@ -66,8 +73,6 @@ $(document).ready(function () {
         refresh_3();
     });
 });
-
-var facIdd;     //全局变量 设备编号
 
 //修改密码ajax
 $(document).ready(function () {
@@ -124,7 +129,7 @@ $(document).ready(function () {
                         refresh_1();
                     }
                     else if(data=="fail")
-                        Messenger().post({message: '提交失败 请重试', type: 'error', showCloseButton: true});
+                        Messenger().post({message: '提交失败 不可重复借用', type: 'error', showCloseButton: true});
                     else
                         Messenger().post({message: '未知错误', type: 'error', showCloseButton: true});
                 }
@@ -408,6 +413,7 @@ function refresh_1() {
         popover();
         firstTable();
         checkInfo();
+        isManager();
     });
 }
 
@@ -438,7 +444,8 @@ function refresh_2() {
 
 function refresh_3() {
     $.post('../../src/refreshTableJson.php', {
-        No : "3"
+        No : "3",
+        type : isManagers
     }, function(data) {
         var jsonObj = eval( "(" + data + ")" );
         var content ="";
@@ -448,16 +455,46 @@ function refresh_3() {
                 "<td>" + checkNull(obj.names) + "</td>" +
                 "<td>" + checkNull(obj.college) + "</td>" +
                 "<td>" + obj.sdate + "</td>" +
+                "<td>" + obj.edate + "</td>" +
+                "<td style='display: none'>" + obj.facno + "</td>" +
                 "<td>" + obj.facname + "</td>" +
                 "<td>" + checkNull(obj.tele) + "</td>" +
-                "<td>" + obj.uselong + " 天</td>" +
-                "<td><a href=\"#\" data-container=\"body\" data-toggle=\"popover\" data-placement=\"right\" data-content=\"" + checkNull(obj.aim) + "\">详细信息</a></td>"+
-                "</tr>";
+                "<td>" + getState(obj.state) + "</td>";
+                // "<td>" + obj.uselong + " 天</td>" +
+                // "<td><a href=\"#\" data-container=\"body\" data-toggle=\"popover\" data-placement=\"right\" data-content=\"" + checkNull(obj.aim) + "\">详细信息</a></td>";
+            if(isManagers==0){          //普通用户
+                if(obj.state=='102'||obj.state=='103')
+                    content += "<td><a href='#' name='renew' class='disabled'>续借</a></td>";
+                else
+                    content += "<td><a href='#' name='renew'>续借</a></td>";
+            }else if(isManagers==1){
+                if(obj.state=='103')
+                    content += "<td><a href='#' name='remind' class='disabled'>提醒 </a>/<a href='#' name='revet' class='disabled'> 归还</a></td>";
+                else
+                    content += "<td><a href='#' name='remind'>提醒 </a>/<a href='#' name='revet'> 归还</a></td>";
+            }
+               content += "</tr>";
         });
         $("#thirdTbody").html(content);
         $("#BorrowInfo").trigger("update");
         popover();
+        revet();
+        renew();
+        remind();
     });
+}
+
+function getState(state) {
+    switch (state){
+        case '100':
+            return "<span class='normalState'>正常</span>";
+        case '101':
+            return "<span class='willExpire'>即将过期</span>";
+        case '102':
+            return "<span class='haveExpire'>已过期</span>";
+        case '103':
+            return "<span class='haveReturn'>已归还</span>";
+    }
 }
 
 function refresh_4() {
@@ -469,9 +506,107 @@ function refresh_4() {
         $("#collegeInput").val(checkNull(jsonObj.college));
         $("#nameInput").val(checkNull(jsonObj.name));
         $("#telInput").val(checkNull(jsonObj.telphone));
-
         $("#college").val(checkNull(jsonObj.college));
         $("#StuName").val(checkNull(jsonObj.name));
         $("#Telenum").val(checkNull(jsonObj.telphone));
     });
+}
+
+//设备归还
+function revet() {
+    $('[name=revet]').click(function () {
+        var fac_id = $(this).parents("tr").find("td").eq(5).text().trim();
+        var user_id = $(this).parents("tr").find("td").eq(0).text().trim();
+        // alert(fac_id + " " + user_id);
+        $.ajax({
+            type: "POST",
+            data:{
+                facid:fac_id,
+                userid:user_id
+            },
+            url: "../../src/revetServ.php",
+            success: function(data) {
+                if(data=="true"){
+                    Messenger().post({message: '归还成功', type: 'success', showCloseButton: true});
+                    refresh_3();
+                }
+                else if(data=="false") {
+                    Messenger().post({message: '提交失败 请重试', type: 'error', showCloseButton: true});
+                }
+                else {
+                    Messenger().post({message: '未知错误', type: 'error', showCloseButton: true});
+                }
+            }
+        });
+    });
+}
+
+//设备续借
+function renew() {
+    $('[name=renew]').click(function () {
+        var fac_id = $(this).parents("tr").find("td").eq(5).text().trim();
+        var user_id = $(this).parents("tr").find("td").eq(0).text().trim();
+        // alert(fac_id + " " + user_id);
+        $.ajax({
+            type: "POST",
+            data:{
+                facid:fac_id,
+                userid:user_id
+            },
+            url: "../../src/renewServ.php",
+            success: function(data) {
+                if(data=="true"){
+                    Messenger().post({message: '续借成功', type: 'success', showCloseButton: true});
+                    refresh_3();
+                }
+                else if(data=="false") {
+                    Messenger().post({message: '提交失败 不可重复续借', type: 'error', showCloseButton: true});
+                }
+                else {
+                    Messenger().post({message: '未知错误', type: 'error', showCloseButton: true});
+                }
+            }
+        });
+    });
+}
+
+//提醒
+function remind() {
+    $('[name=remind]').click(function () {
+
+        var facid = $(this).parents("tr").find("td").eq(5).text().trim();
+        var userid = $(this).parents("tr").find("td").eq(0).text().trim();
+        // alert(array[0]['facid']);
+        $.ajax({
+            type: "POST",
+            data:{
+                facid:facid,
+                userid:userid,
+                type:0
+            },
+            url: "../../src/remindServ.php",
+            success: function(data) {
+                switch (data) {
+                    case '100':
+                    case '200':
+                    case '302':
+                        Messenger().post({message: '信息发送失败 请重试', type: 'error', showCloseButton: true});
+                        break;
+                    case '300':
+                        Messenger().post({message: '信息发送失败 日提醒次数上限为3条', type: 'error', showCloseButton: true});
+                        break;
+                    case '301':
+                        Messenger().post({message: '提醒成功 信息已发送', type: 'success', showCloseButton: true});
+                        break;
+                    case '303':
+                        Messenger().post({message: '信息发送失败 反垃圾', type: 'error', showCloseButton: true});
+                        break;
+                }
+            }
+        });
+    });
+}
+
+function remindAll() {
+    
 }
